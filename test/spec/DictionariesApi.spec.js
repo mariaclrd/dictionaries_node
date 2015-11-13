@@ -19,10 +19,10 @@ describe('DictionariesApi', function() {
     describe('put', function() {
         it('should return 200', function() {
 
-            var resp = this.dictionariesApi.update(reqRespMock.req, reqRespMock.res);
+            this.dictionariesApi.update(reqRespMock.req, reqRespMock.res);
 
-            //expect(resp).to.be.calledWidth(200);
-            expect(resp).to.be.calledOnce;
+            expect(reqRespMock.res.send).to.be.calledWith(200);
+            expect(reqRespMock.res.send).to.be.calledOnce;
         });
     });
 });

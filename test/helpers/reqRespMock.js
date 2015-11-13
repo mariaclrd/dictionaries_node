@@ -7,11 +7,7 @@ reqRespMock.req = {
 };
 
 reqRespMock.res = {
-    send: function(param) {
-        var spy = sinon.spy();
-        spy(param);
-        return spy;
-    },
+    send: sinon.spy(),
     json: function() {
         return sinon.spy()
     },
