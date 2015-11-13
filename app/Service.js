@@ -1,9 +1,11 @@
-function Service() {}
+function Service(config) {
+	this.config = config;
+}
 
 Service.prototype.start = function () {
 	var express = require('express');
 	var server = express();
-	server.listen(3000);
+	server.listen(this.config.port);
 };
 
 module.exports = Service;
