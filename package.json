@@ -2,9 +2,10 @@
   "name": "dictionaries_node",
   "version": "1.0.0",
   "description": "Dictionaries microservices implemented using NodeJS",
-  "main": "dictionaries.js",
+  "main": "app.js",
   "scripts": {
-    "test": "mocha --recursive"
+    "test": "mocha --recursive",
+    "lint": "jshint ./ --reporter node_modules/jshint-stylish-ex/stylish.js --config .jshintrc"
   },
   "repository": {
     "type": "git",
