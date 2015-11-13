@@ -2,7 +2,7 @@
   "name": "dictionaries_node",
   "version": "1.0.0",
   "description": "Dictionaries microservices implemented using NodeJS",
-  "main": "index.js",
+  "main": "dictionaries.js",
   "scripts": {
     "test": "mocha --recursive"
   },
@@ -15,5 +15,16 @@
   "bugs": {
     "url": "https://github.com/mariaclrd/dictionaries_node/issues"
   },
-  "homepage": "https://github.com/mariaclrd/dictionaries_node#readme"
+  "homepage": "https://github.com/mariaclrd/dictionaries_node#readme",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "jshint": "^2.8.0",
+    "jshint-stylish-ex": "^0.2.0",
+    "mocha": "^2.3.3",
+    "sinon": "^1.17.2",
+    "sinon-chai": "^2.8.0"
+  },
+  "dependencies": {
+    "log4js": "^0.6.27"
+  }
 }
