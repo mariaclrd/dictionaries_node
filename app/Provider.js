@@ -1,11 +1,9 @@
 function Provider() {}
 
-Provider.prototype.service = function() {
-	var service = {
-		start: function () {}
-	};
+var Service = require('./Service');
 
-	return service;
-};
+Provider.prototype.service = function () {
+	return new Service();
+}
 
 module.exports = Provider;
