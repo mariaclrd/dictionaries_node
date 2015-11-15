@@ -33,3 +33,5 @@ node_modules
 .project
 
 *.DS_Store
+
+!config/*-defaults.yml
