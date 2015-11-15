@@ -4,6 +4,7 @@
   "description": "Dictionaries microservices implemented using NodeJS",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "mocha --recursive",
     "lint": "jshint ./ --reporter node_modules/jshint-stylish-ex/stylish.js --config .jshintrc"
   },
