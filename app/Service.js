@@ -1,14 +1,12 @@
-function Service(config) {
-	this.config = config;
+function Service(opts) {
+	this.config = opts.config;
+	this.expressApp = opts.expressApp;
 }
 
 Service.prototype.start = function () {
-	var express = require('express');
-	var server = express();
+	console.log("Config: " + JSON.stringify(this.config(), null, 2));
 
-	console.log("Config: " + JSON.stringify(this.config, null, 2));
-
-	server.listen(this.config.port);
+	this.expressApp().listen(this.config().port);
 };
 
 module.exports = Service;
