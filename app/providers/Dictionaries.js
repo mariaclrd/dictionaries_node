@@ -6,8 +6,6 @@ function DictionariesProvider() {
 
 DictionariesProvider.prototype.api = function () {
 	if (this.memo.api === undefined) {
-		console.log('Building dictionariesApi');
-
 		this.memo.api = new DictionariesApi()
 	}
 
