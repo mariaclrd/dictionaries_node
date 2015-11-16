@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "test": "mocha --recursive",
-    "lint": "jshint ./ --reporter node_modules/jshint-stylish-ex/stylish.js --config .jshintrc"
+    "lint": "jshint ./ --reporter node_modules/jshint-stylish-ex/stylish.js --config .jshintrc",
+	"console": "node console.js"
   },
   "repository": {
     "type": "git",

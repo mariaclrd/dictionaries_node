@@ -5,6 +5,10 @@ var Dictionaries = require('./providers/Dictionaries');
 
 function Provider() {
 	this.memo = {}
+	this.inspect = function () {
+		var keys = Object.keys(Object.getPrototypeOf(this))
+		return '< dictionaries: ' + keys.join(", ") + '>'
+	}
 }
 
 Provider.prototype.expressApp = function () {
