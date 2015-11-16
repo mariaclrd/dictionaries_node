@@ -3,53 +3,49 @@ var configFile = require('./configFile');
 var expressApp = require('./expressApp');
 var Dictionaries = require('./providers/Dictionaries');
 
-function Provider() {
+function ProviderBase() {
 	this.memo = {}
-	this.inspect = function () {
-		var keys = Object.keys(Object.getPrototypeOf(this))
-		return '< dictionaries: ' + keys.join(", ") + '>'
-	}
-}
 
-Provider.prototype.expressApp = function () {
-	if (this.memo.expressApp === undefined) {
-		this.memo.expressApp = expressApp({
-			dictionariesApi: this.dictionaries().api()
-		})
-	}
+	this.memoize = function (name, factory) {
+		this[name] = function () {
+			if (this.memo[name] === undefined) {
+				this.memo[name] = factory.bind(this)()
+			}
 
-	return this.memo.expressApp
-}
-
-Provider.prototype.service = function () {
-	if (this.memo.service === undefined) {
-		var opts = {
-			config: this.config().http,
-			expressApp: this.expressApp()
+			return this.memo[name]
 		}
-
-		this.memo.service = new Service(opts);
 	}
-
-	return this.memo.service
 }
 
-Provider.prototype.config = function () {
-	if (this.memo.config === undefined) {
-		this.memo.config = {
-			http: configFile('http')
-	   	}
-	}
-
-	return this.memo.config
+ProviderBase.prototype.inspect = function () {
+	var keys = Object.keys(Object.getPrototypeOf(this))
+	return '< provider: ' + keys.join(", ") + '>'
 }
 
-Provider.prototype.dictionaries = function () {
-	if (this.memo.dictionaries === undefined) {
-		this.memo.dictionaries = new Dictionaries()
+function Provider() { }
+Provider.prototype = new ProviderBase()
+
+Provider.prototype.memoize('expressApp', function () {
+	return expressApp({
+		dictionariesApi: this.dictionaries().api()
+	})
+})
+
+Provider.prototype.memoize('service', function () {
+	var opts = {
+		config: this.config().http,
+		expressApp: this.expressApp()
 	}
 
-	return this.memo.dictionaries
-}
+	return new Service(opts);
+});
+
+Provider.prototype.memoize('config', function () {
+	return { http: configFile('http') }
+})
+
+Provider.prototype.memoize('dictionaries', function () {
+	return new Dictionaries()
+})
 
 module.exports = Provider;
