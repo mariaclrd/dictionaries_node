@@ -1,15 +1,12 @@
+var ProviderBase = require('../ProviderBase');
 var DictionariesApi = require('../DictionariesApi')
 
-function DictionariesProvider() {
-	this.memo = {}
-}
+function DictionariesProvider() { }
 
-DictionariesProvider.prototype.api = function () {
-	if (this.memo.api === undefined) {
-		this.memo.api = new DictionariesApi()
-	}
+DictionariesProvider.prototype = new ProviderBase()
 
-	return this.memo.api
-}
+DictionariesProvider.prototype.memoize('api', function () {
+	return new DictionariesApi()
+})
 
 module.exports = DictionariesProvider
