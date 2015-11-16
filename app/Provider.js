@@ -9,6 +9,8 @@ function Provider() {
 
 Provider.prototype.expressApp = function () {
 	if (this.memo.expressApp === undefined) {
+		console.log('Building expressApp');
+
 		this.memo.expressApp = expressApp({
 			dictionariesApi: this.dictionaries().api()
 		})
@@ -18,22 +20,35 @@ Provider.prototype.expressApp = function () {
 }
 
 Provider.prototype.service = function () {
-	var opts = {
-		config: this.config().http,
-		expressApp: this.expressApp.bind(this)
+	if (this.memo.service === undefined) {
+		var opts = {
+			config: this.config().http,
+			expressApp: this.expressApp()
+		}
+
+		console.log('Building service');
+
+		this.memo.service = new Service(opts);
 	}
 
-	return new Service(opts);
+	return this.memo.service
 }
 
 Provider.prototype.config = function () {
-	return {
-		http: configFile('http')
+	if (this.memo.config === undefined) {
+		console.log('Building config');
+
+		this.memo.config = {
+			http: configFile('http')
+	   	}
 	}
+
+	return this.memo.config
 }
 
 Provider.prototype.dictionaries = function () {
 	if (this.memo.dictionaries === undefined) {
+		console.log('Building dictionaries');
 		this.memo.dictionaries = new Dictionaries()
 	}
 
