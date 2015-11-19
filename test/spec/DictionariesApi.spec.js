@@ -29,24 +29,29 @@ describe('DictionariesApi', function() {
 
     describe('put', function() {
         it('should return 200', function() {
+            this.fakeActions.createOrUpdate.resolves('foo')().then(function() {
+                expect(reqRespMock.res.send).to.be.calledWith(200);
+                expect(reqRespMock.res.send).to.be.calledOnce;
+            });
+
+            this.dictionariesApi.update(reqRespMock.req, reqRespMock.res);
+        });
+
+        it('should return error when promise not resolved', function(){
+
+            this.fakeActions.createOrUpdate.rejects('foo')().catch(function() {
+                expect(reqRespMock.res.send).to.be.calledWith(500);
+            });
+
+            this.dictionariesApi.update(reqRespMock.req, reqRespMock.res);
+        })
+
+
+        it('should delegate to the action to update or create the dictionary', function(){
             this.fakeActions.createOrUpdate.resolves('foo');
 
             this.dictionariesApi.update(reqRespMock.req, reqRespMock.res);
 
-            expect(reqRespMock.res.send).to.be.calledWith(200);
-            expect(reqRespMock.res.send).to.be.calledOnce;
-        });
-
-        it('should return error when promise not resolved', function(){
-            this.fakeActions.createOrUpdate.rejects('foo');
-            this.dictionariesApi.update(reqRespMock.req, reqRespMock.res);
-
-
-            expect(reqRespMock.res.send).to.be.calledWith(500);
-        })
-
-        it('should delegate to the action to update or create the dictionary', function(){
-            this.dictionariesApi.update(reqRespMock.req, reqRespMock.res);
             expect(this.fakeActions.createOrUpdate).to.be.calledWith('test_scope','uuid', 'dictionary name');
         });
     });
