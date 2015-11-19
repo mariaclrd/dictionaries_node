@@ -7,7 +7,7 @@
     "start": "node app.js",
     "test": "mocha --recursive",
     "lint": "jshint ./ --reporter node_modules/jshint-stylish-ex/stylish.js --config .jshintrc",
-	"console": "node console.js"
+    "console": "node console.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,8 @@
     "sinon-chai": "^2.8.0"
   },
   "dependencies": {
-    "log4js": "^0.6.27"
+    "log4js": "^0.6.27",
+    "express": "~4.13.3",
+    "sinon-as-promised": "~4.0.0"
   }
 }

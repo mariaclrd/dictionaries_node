@@ -3,7 +3,7 @@ var sinon = require('sinon');
 var reqRespMock = {};
 
 reqRespMock.req = {
-    query: sinon.stub()
+    query: sinon.stub(),
 };
 
 reqRespMock.res = {
