@@ -38,10 +38,13 @@ describe('DictionariesApi', function() {
 
             this.fakeActions.createOrUpdate.resolves('foo');
 
-            reqRespMock.res.send = function(arg) {
-                AsyncCheck.check(function(arg) {
+            reqRespMock.res.send = function(values) {
+
+                var myCheck = function(arg) {
                     expect(arg).to.be.equal(200);
-                }, arg, done);
+                };
+
+                AsyncCheck.check(myCheck, values, done);
             };
 
             this.dictionariesApi.update(reqRespMock.req, reqRespMock.res);
