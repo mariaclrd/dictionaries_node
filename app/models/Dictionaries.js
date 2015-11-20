@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var DictionarySchema = new Schema({
-    scope_type: {
+    scope: {
         type: String,
         unique: false,
         required: true,
@@ -14,7 +14,7 @@ var DictionarySchema = new Schema({
         required: true,
         index: true
     },
-    dict_name: {
+    name: {
         type: String,
         unique: false,
         required: true

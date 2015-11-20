@@ -6,16 +6,25 @@ describe('Dictionaries model test', function() {
 
     it('should create a dictionary object', function () {
         var dictionary = new Approval({
-            scope_type: 'fake-scope',
+            scope: 'fake-scope',
             uuid: 'fake-uuid',
-            dict_name: 'fake-name',
+            name: 'fake-name',
             content: 'diccionario de chino'
         });
         assert.isOk(dictionary);
-        assert.equal(dictionary.scope_type, 'fake-scope');
+    });
+
+    it('should create a populated dictionary object', function() {
+        var dictionary = new Approval({
+            scope: 'fake-scope',
+            uuid: 'fake-uuid',
+            name: 'fake-name',
+            content: 'diccionario de chino'
+        });
+        assert.equal(dictionary.scope, 'fake-scope');
         assert.equal(dictionary.uuid, 'fake-uuid');
-        assert.equal(dictionary.dict_name, 'fake-name');
-        assert.equal(dictionary.dict_name, 'diccionario de chino');
+        assert.equal(dictionary.name, 'fake-name');
+        assert.equal(dictionary.content, 'diccionario de chino');
     });
 
 });
