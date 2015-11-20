@@ -5,7 +5,7 @@ var sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 var expect = chai.expect;
 var reqRespMock = require('../helpers/reqRespMock');
-require('sinon-as-promised')
+require('sinon-as-promised');
 
 
 describe('DictionariesApi', function() {
@@ -32,16 +32,19 @@ describe('DictionariesApi', function() {
             this.fakeActions.createOrUpdate.resolves('foo')().then(function() {
                 expect(reqRespMock.res.send).to.be.calledWith(200);
                 expect(reqRespMock.res.send).to.be.calledOnce;
+                done();
             });
 
             this.dictionariesApi.update(reqRespMock.req, reqRespMock.res);
         });
 
-        it('should return error when promise not resolved', function(){
+        it('should return error when promise not resolved', function(done){
+            this.fakeActions.createOrUpdate.rejects('foo');
 
-            this.fakeActions.createOrUpdate.rejects('foo')().catch(function() {
-                expect(reqRespMock.res.send).to.be.calledWith(500);
-            });
+            reqRespMock.res.send = function(value) {
+                expect(value).to.equal(500);
+                done();
+            };
 
             this.dictionariesApi.update(reqRespMock.req, reqRespMock.res);
         })

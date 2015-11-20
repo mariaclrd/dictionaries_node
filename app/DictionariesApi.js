@@ -5,10 +5,9 @@ var DictionariesApi =  function(actions) {
 
 DictionariesApi.prototype.update=function(req,resp) {
     this.actions.createOrUpdate(req.params.scope, req.params.uuid, req.params.name)
-        .then(function(){
+        .then(function(value){
             resp.send(200);
-        })
-        .catch(function(){
+        }, function(value){
             resp.send(500);
         });
 };
