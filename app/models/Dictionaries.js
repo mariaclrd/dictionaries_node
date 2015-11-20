@@ -18,6 +18,11 @@ var DictionarySchema = new Schema({
         type: String,
         unique: false,
         required: true
+    },
+    content: {
+        type: String,
+        unique: false,
+        required: true
     }
 });
 
