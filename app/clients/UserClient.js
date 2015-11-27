@@ -7,14 +7,11 @@ var userClient = function(opts) {
 
       var promise = new Promise(function(fulfill, reject) {
         request(requestOpts, function (error, response, body) {
-
           if( error == null && response.statusCode === 200) {
-            console.log('USERCLIENT - fulfill');
-            fulfill(response.body);
+            console.log('-------- RESPONSE.BODY ' + response.body);
+            fulfill(JSON.parse(response.body));
           } else {
-            console.log('USERCLIENT - reject');
-            console.log('ERROR : ' + error)
-;            reject(error);
+            reject(error);
           }
         });
       });
