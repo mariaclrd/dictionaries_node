@@ -29,10 +29,11 @@
     "sinon-chai": "^2.8.0"
   },
   "dependencies": {
-    "express": "~4.13.3",
-    "sinon-as-promised": "~4.0.0",
-    "mongoose": "~4.2.6",
-    "log4js": "^0.6.27",
     "q": "^1.4.1"
+    "chai-as-promised": "^5.1.0",
+    "express": "~4.13.3",
+    "log4js": "^0.6.27",
+    "mongoose": "~4.2.6",
+    "sinon-as-promised": "~4.0.0"
   }
 }
