@@ -34,7 +34,7 @@ describe('DictionariesApi', function() {
 
     describe('put', function() {
 
-        it.only('should return 200', function(done) {
+        it('should return 200', function(done) {
 
             this.fakeActions.createOrUpdate.resolves('foo');
 
@@ -50,16 +50,20 @@ describe('DictionariesApi', function() {
             this.dictionariesApi.update(reqRespMock.req, reqRespMock.res);
         });
 
-        it('should return error when promise not resolved', function(done){
+        it.only('should return error when promise not resolved', function(done){
             this.fakeActions.createOrUpdate.rejects('foo');
 
-            reqRespMock.res.send = function(value) {
-                expect(value).to.equal(500);
-                done();
+            reqRespMock.res.send = function(values) {
+
+                var myCheck = function(arg) {
+                    expect(arg).to.be.equal(500);
+                };
+
+                AsyncCheck.check(myCheck, values, done);
             };
 
             this.dictionariesApi.update(reqRespMock.req, reqRespMock.res);
-        })
+        });
 
 
         it('should delegate to the action to update or create the dictionary', function(){
@@ -73,18 +77,32 @@ describe('DictionariesApi', function() {
 
     describe('get', function() {
         it('should return 404 when dictionary not found', function() {
-            this.fakeActions.show.rejects('foo')().catch(function() {
-                expect(reqRespMock.res.send).to.be.calledWith(404);
-            });
+            this.fakeActions.show.rejects('foo');
+
+            reqRespMock.res.send = function(values) {
+
+                var myCheck = function(arg) {
+                    expect(arg).to.be.equal(404);
+                };
+
+                AsyncCheck.check(myCheck, values, done);
+            };
 
             this.dictionariesApi.read(reqRespMock.req, reqRespMock.res);
         });
 
         it('should return 200 when dictionary found', function () {
-            this.fakeActions.show.resolves('foo')().then(function() {
-                expect(reqRespMock.res.send).to.be.calledWith(200);
+            this.fakeActions.show.resolves('foo');
 
-            });
+            reqRespMock.res.send = function(values) {
+
+                var myCheck = function(arg) {
+                    expect(arg).to.be.equal(200);
+                };
+
+                AsyncCheck.check(myCheck, values, done);
+            };
+
             this.dictionariesApi.read(reqRespMock.req, reqRespMock.res);
 
 

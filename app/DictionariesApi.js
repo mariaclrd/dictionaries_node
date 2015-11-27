@@ -7,9 +7,6 @@ var DictionariesApi =  function(actions) {
 
 DictionariesApi.prototype.update = function(req,resp) {
     var promise = this.actions.createOrUpdate(req.params.scope, req.params.uuid, req.params.name);
-
-    console.log(''+promise);
-
     promise.then(function(){
         resp.send(200);
     }, function() {
