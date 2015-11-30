@@ -28,8 +28,7 @@
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0",
     "chai-as-promised": "^5.1.0",
-    "sinon-as-promised": "~4.0.0",
-    "q": "^1.4.1"
+    "sinon-as-promised": "~4.0.0"
   },
   "dependencies": {
     "express": "~4.13.3",

@@ -3,7 +3,6 @@ var sinon = require('sinon');
 var chai = require('chai');
 var sinonChai = require('sinon-chai');
 chai.use(sinonChai);
-var Q = require('q');
 var expect = chai.expect;
 var buildReqRespMock = require('../helpers/reqRespMock');
 require('sinon-as-promised');
