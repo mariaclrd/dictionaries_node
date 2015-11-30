@@ -6,7 +6,7 @@ chai.use(sinonChai);
 var Q = require('q');
 var expect = chai.expect;
 var buildReqRespMock = require('../helpers/reqRespMock');
-require('sinon-as-promised')(Q);
+require('sinon-as-promised');
 var AsyncCheck = require('../helpers/AsyncCheck');
 var finallyDone = require('../helpers/finallyDone');
 
