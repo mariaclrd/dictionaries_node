@@ -1,4 +1,4 @@
-var finalyDone = function (done, block) {
+var finallyDone = function (done, block) {
 	try {
 		block();
 		done();
@@ -7,4 +7,4 @@ var finalyDone = function (done, block) {
 	}
 }
 
-module.exports = finalyDone;
+module.exports = finallyDone;
