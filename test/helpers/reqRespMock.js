@@ -1,19 +1,23 @@
 var sinon = require('sinon');
 
-var reqRespMock = {};
+var buildReqRespMock = function () {
+	var reqRespMock = {};
 
-reqRespMock.req = {
-    query: sinon.stub(),
-};
+	reqRespMock.req = {
+		query: sinon.stub(),
+	};
 
-reqRespMock.res = {
-    send: sinon.spy(),
-    json: function() {
-        return sinon.spy()
-    },
-    status: function() {
-        sinon.spy()
-    }
-};
+	reqRespMock.res = {
+		send: sinon.spy(),
+		json: function() {
+			return sinon.spy()
+		},
+		status: function() {
+			sinon.spy()
+		}
+	};
 
-module.exports = reqRespMock;
+	return reqRespMock
+}
+
+module.exports = buildReqRespMock;

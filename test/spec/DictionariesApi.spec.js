@@ -5,9 +5,10 @@ var sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 var Q = require('q');
 var expect = chai.expect;
-var reqRespMock = require('../helpers/reqRespMock');
+var buildReqRespMock = require('../helpers/reqRespMock');
 require('sinon-as-promised')(Q);
 var AsyncCheck = require('../helpers/AsyncCheck');
+var finallyDone = require('../helpers/finallyDone');
 
 
 describe('DictionariesApi', function() {
@@ -20,8 +21,9 @@ describe('DictionariesApi', function() {
         this.fakeActions.show = sinon.stub();
 
         this.dictionariesApi = new DictionariesApi(this.fakeActions);
+		this.reqRespMock = buildReqRespMock();
 
-        reqRespMock.req.params = {
+        this.reqRespMock.req.params = {
             scope: 'test_scope',
             uuid: 'uuid',
             name: 'dictionary name'
@@ -38,7 +40,7 @@ describe('DictionariesApi', function() {
 
             this.fakeActions.createOrUpdate.resolves('foo');
 
-            reqRespMock.res.send = function(values) {
+            this.reqRespMock.res.send = function(values) {
 
                 var myCheck = function(arg) {
                     expect(arg).to.be.equal(200);
@@ -47,13 +49,13 @@ describe('DictionariesApi', function() {
                 AsyncCheck.check(myCheck, values, done);
             };
 
-            this.dictionariesApi.update(reqRespMock.req, reqRespMock.res);
+            this.dictionariesApi.update(this.reqRespMock.req, this.reqRespMock.res);
         });
 
-        it.only('should return error when promise not resolved', function(done){
+        it('should return error when promise not resolved', function(done){
             this.fakeActions.createOrUpdate.rejects('foo');
 
-            reqRespMock.res.send = function(values) {
+            this.reqRespMock.res.send = function(values) {
 
                 var myCheck = function(arg) {
                     expect(arg).to.be.equal(500);
@@ -62,14 +64,14 @@ describe('DictionariesApi', function() {
                 AsyncCheck.check(myCheck, values, done);
             };
 
-            this.dictionariesApi.update(reqRespMock.req, reqRespMock.res);
+            this.dictionariesApi.update(this.reqRespMock.req, this.reqRespMock.res);
         });
 
 
         it('should delegate to the action to update or create the dictionary', function(){
             this.fakeActions.createOrUpdate.resolves('foo');
 
-            this.dictionariesApi.update(reqRespMock.req, reqRespMock.res);
+            this.dictionariesApi.update(this.reqRespMock.req, this.reqRespMock.res);
 
             expect(this.fakeActions.createOrUpdate).to.be.calledWith('test_scope','uuid', 'dictionary name');
         });
@@ -79,7 +81,7 @@ describe('DictionariesApi', function() {
         it('should return 404 when dictionary not found', function() {
             this.fakeActions.show.rejects('foo');
 
-            reqRespMock.res.send = function(values) {
+            this.reqRespMock.res.send = function(values) {
 
                 var myCheck = function(arg) {
                     expect(arg).to.be.equal(404);
@@ -88,13 +90,13 @@ describe('DictionariesApi', function() {
                 AsyncCheck.check(myCheck, values, done);
             };
 
-            this.dictionariesApi.read(reqRespMock.req, reqRespMock.res);
+            this.dictionariesApi.read(this.reqRespMock.req, this.reqRespMock.res);
         });
 
         it('should return 200 when dictionary found', function () {
             this.fakeActions.show.resolves('foo');
 
-            reqRespMock.res.send = function(values) {
+            this.reqRespMock.res.send = function(values) {
 
                 var myCheck = function(arg) {
                     expect(arg).to.be.equal(200);
@@ -103,7 +105,7 @@ describe('DictionariesApi', function() {
                 AsyncCheck.check(myCheck, values, done);
             };
 
-            this.dictionariesApi.read(reqRespMock.req, reqRespMock.res);
+            this.dictionariesApi.read(this.reqRespMock.req, this.reqRespMock.res);
 
 
 
