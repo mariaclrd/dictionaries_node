@@ -105,11 +105,14 @@ describe('DictionariesApi', function() {
             };
 
             this.dictionariesApi.read(this.reqRespMock.req, this.reqRespMock.res);
+        });
 
+        it('should delegate to the action to get the specific dictionary', function(){
+            this.fakeActions.show.resolves('foo');
 
+            this.dictionariesApi.read(this.reqRespMock.req, this.reqRespMock.res);
 
-            //expect(true).to.be.false;
-
+            expect(this.fakeActions.show).to.be.calledWith('test_scope','uuid', 'dictionary name');
         });
     });
 });
