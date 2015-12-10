@@ -13,8 +13,6 @@ var finallyDone = require('../helpers/finallyDone');
 describe('DictionariesApi', function() {
 
     beforeEach(function() {
-        var self = this;
-
         this.fakeActions = {};
         this.fakeActions.createOrUpdate = sinon.stub();
         this.fakeActions.show = sinon.stub();
