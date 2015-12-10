@@ -5,6 +5,7 @@ var buildReqRespMock = function () {
 
 	reqRespMock.req = {
 		query: sinon.stub(),
+		params: {}
 	};
 
 	reqRespMock.res = {
@@ -16,6 +17,8 @@ var buildReqRespMock = function () {
 			sinon.spy()
 		}
 	};
+
+	reqRespMock.next = sinon.spy();
 
 	return reqRespMock
 }

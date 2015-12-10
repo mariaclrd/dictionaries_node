@@ -21,7 +21,7 @@ describe('DictionariesApi', function() {
 		this.reqRespMock = buildReqRespMock();
 
         this.reqRespMock.req.params = {
-            scope: 'test_scope',
+            scope: 'users',
             uuid: 'uuid',
             name: 'dictionary name'
         };
@@ -70,7 +70,7 @@ describe('DictionariesApi', function() {
 
             this.dictionariesApi.update(this.reqRespMock.req, this.reqRespMock.res);
 
-            expect(this.fakeActions.createOrUpdate).to.be.calledWith('test_scope','uuid', 'dictionary name');
+            expect(this.fakeActions.createOrUpdate).to.be.calledWith('users','uuid', 'dictionary name');
         });
     });
 
@@ -110,7 +110,7 @@ describe('DictionariesApi', function() {
 
             this.dictionariesApi.read(this.reqRespMock.req, this.reqRespMock.res);
 
-            expect(this.fakeActions.show).to.be.calledWith('test_scope','uuid', 'dictionary name');
+            expect(this.fakeActions.show).to.be.calledWith('users','uuid', 'dictionary name');
         });
     });
 });

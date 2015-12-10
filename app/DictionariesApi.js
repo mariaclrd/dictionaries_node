@@ -17,12 +17,12 @@ class DictionariesApi {
 
     read(req, resp) {
         this.actions.show(req.params.scope, req.params.uuid, req.params.name)
-            .then(function() {
-                resp.send(201);
-            },
-            function() {
-                resp.send(404);
-            });
+        .then(function() {
+            resp.send(201);
+        },
+        function() {
+            resp.send(404);
+        });
     }
 
 }
