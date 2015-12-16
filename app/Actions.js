@@ -2,9 +2,15 @@
 
 class Actions {
 
-    createOrUpdate(scope, uuid, name){
-        var promise = new Promise(function(resolve, reject){
+    constructor(dictionaries_collection) {
+        this.collection = dictionaries_collection;
+    }
 
+    createOrUpdate(scope, uuid, name){
+        var self = this;
+        var promise = new Promise(function(resolve, reject){
+            var dictionary = self.collection.find({scope: scope, uuid: uuid});
+            resolve(dictionary);
         });
         return promise;
     }
