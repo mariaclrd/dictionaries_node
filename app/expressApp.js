@@ -1,12 +1,14 @@
 var express = require('express');
 
 function expressApp(opts) {
-	var dictionariesApi = opts.dictionariesApi
+	var dictionariesApi = opts.dictionariesApi;
 	var app = express();
 
-	app.put('/dictionaries/:id', dictionariesApi.update)
+	if(opts.cirrusMiddleware) { opts.cirrusMiddleware.install(app); }
 
-	return app
+	app.put('/dictionaries/:id', dictionariesApi.update);
+
+	return app;
 }
 
-module.exports = expressApp
+module.exports = expressApp;
