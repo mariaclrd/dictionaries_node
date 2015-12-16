@@ -14,11 +14,9 @@ Provider.prototype = new ProviderBase()
 
 Provider.prototype.memoize('expressApp', function () {
     var config = configFile('http')
-	console.log('[Configurando expressApp] Tenemos el config ' + JSON.stringify(config))
 	return expressApp({
 		dictionariesApi: this.dictionaries().api(),
-		cirrusMiddleware: new CirrusMiddleware({"port": 9001,"environment": "qa","database": {"url": "test"}}, {})
-		// cirrusMiddleware: new CirrusMiddleware(this.config, {})
+		cirrusMiddleware: new CirrusMiddleware(this.config, {})
 	})
 });
 

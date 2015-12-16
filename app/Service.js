@@ -6,8 +6,7 @@ function Service(opts) {
 Service.prototype.start = function () {
 	//console.log("Config: " + JSON.stringify(this.config(), null, 2));
 
-	//this.expressApp.listen(this.config.port);
-	this.expressApp.listen(9001);
+	this.expressApp.listen(this.config.port);
 };
 
 module.exports = Service;
