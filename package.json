@@ -33,6 +33,7 @@
   "dependencies": {
     "express": "~4.13.3",
     "log4js": "^0.6.27",
+    "log4js-config": "^0.1.1",
     "mongoose": "~4.2.6"
   }
 }

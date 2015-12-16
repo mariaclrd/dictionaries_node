@@ -1,0 +1,16 @@
+{
+	"reloadSecs": 60,
+    "appenders": [
+    {
+      "type": "console",
+      "category": "app"
+    },
+    {
+      "type": "console",
+      "category": "cirrus.auth"
+    }
+    ],
+    "levels": {
+    	"[all]": "WARN"
+  	}
+}

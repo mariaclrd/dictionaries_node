@@ -1,6 +1,7 @@
 function Service(opts) {
 	this.config = opts.config;
 	this.expressApp = opts.expressApp;
+	this.logger = opts.logger;
 }
 
 Service.prototype.start = function () {
