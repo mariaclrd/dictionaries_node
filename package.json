@@ -31,6 +31,8 @@
     "sinon-as-promised": "~4.0.0"
   },
   "dependencies": {
+    "@workshare/nodejs-cirrus-auth": "0.0.5",
+    "@workshare/ws-logger": "0.0.2",
     "express": "~4.13.3",
     "log4js": "^0.6.27",
     "log4js-config": "^0.1.1",
