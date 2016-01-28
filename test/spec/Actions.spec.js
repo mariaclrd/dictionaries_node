@@ -1,6 +1,7 @@
 var Actions =  require('../../app/Actions');
 var chai = require('chai');
 var expect = chai.expect;
+var assert = chai.assert;
 var AsyncCheck = require('../helpers/AsyncCheck');
 var sinon = require('sinon');
 
@@ -17,12 +18,8 @@ describe('Actions', function() {
         };
 
         this.fakeCollection = {
-
-            findOne: function (params, err_callback) {
-                return self.dictionary
-            },
-            find: self.findStub
-
+            find: self.findStub,
+            findOne: sinon.spy()
         };
 
         this.findSpy = sinon.spy(this.fakeCollection, 'find');
@@ -43,11 +40,12 @@ describe('Actions', function() {
                 promise = this.actions.createOrUpdate();
                 promise.then(function(dictionary){
                     var myCheck = function(object) {
-                        expect(object.uuid).to.be.equal(self.uuid)
+                        assert(self.fakeCollection.findOne.called)
                     };
                     AsyncCheck.check(myCheck, dictionary, done)
-                }, done);
-
+                }, function(argument){
+                    done("failed test")
+                });
             });
         });
     });

@@ -9,7 +9,7 @@ class Actions {
     createOrUpdate(scope, uuid, name){
         var self = this;
         var promise = new Promise(function(resolve, reject){
-            var dictionary = self.collection.findOne({scope: scope, uuid: uuid}, reject(dictionary));
+            var dictionary = self.collection.findOne({scope: scope, uuid: uuid}, reject);
             resolve(dictionary);
         });
         return promise;
