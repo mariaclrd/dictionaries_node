@@ -16,8 +16,8 @@ class DictionariesApi {
     }
 
     read(req, resp) {
-        this.actions.show(req.params.scope, req.params.uuid, req.params.name)
-        .then(function() {
+        var promise = this.actions.show(req.params.scope, req.params.uuid, req.params.name)
+        promise.then(function() {
             resp.send(201);
         },
         function() {

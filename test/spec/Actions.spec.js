@@ -6,19 +6,29 @@ var sinon = require('sinon');
 
 describe('Actions', function() {
     beforeEach(function(){
-        var self = this
+        var self = this;
         this.uuid = "dictionary_uuid";
         this.dictionary = {
             uuid: this.uuid
         };
 
-        this.fakeCollection = {
-            findOne: function (params, err_callback) {
-                return self.dictionary
-            }
+        this.findStub = function() {
+            return self.dictionary;
         };
 
+        this.fakeCollection = {
+
+            findOne: function (params, err_callback) {
+                return self.dictionary
+            },
+            find: self.findStub
+
+        };
+
+        this.findSpy = sinon.spy(this.fakeCollection, 'find');
+
         this.actions = new Actions(this.fakeCollection);
+
 
     });
 
@@ -40,6 +50,25 @@ describe('Actions', function() {
 
             });
         });
+    });
 
-    })
-})
+    describe('show', function() {
+        it('should return a promise', function(){
+           expect(this.actions.show()).to.be.an.instanceof(Promise);
+        });
+
+        it('should return a dictionary', function(done){
+            var that = this;
+
+            promise = this.actions.show();
+            promise.then(function(){
+                try {
+                    expect(that.findSpy).to.be.called;
+                    done();
+                } catch(error) {
+                    done(error)
+                }
+            });
+        });
+    });
+});

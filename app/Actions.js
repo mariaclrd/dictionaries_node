@@ -14,6 +14,16 @@ class Actions {
         });
         return promise;
     }
+
+    show(){
+        var self = this;
+
+        var promise = new Promise(function(resolve, reject){
+            var dictionary = self.collection.find();
+            resolve(dictionary);
+        });
+        return promise;
+    }
 }
 
 module.exports = Actions;
