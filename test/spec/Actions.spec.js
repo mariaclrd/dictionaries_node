@@ -13,7 +13,7 @@ describe('Actions', function() {
         };
 
         this.fakeCollection = {
-            find: function (params) {
+            findOne: function (params, err_callback) {
                 return self.dictionary
             }
         };
@@ -36,7 +36,7 @@ describe('Actions', function() {
                         expect(object.uuid).to.be.equal(self.uuid)
                     };
                     AsyncCheck.check(myCheck, dictionary, done)
-                });
+                }, done);
 
             });
         });
