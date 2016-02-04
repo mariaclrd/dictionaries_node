@@ -13,6 +13,9 @@ class Actions {
             if(dictionary) {
                 self.collection.update({uuid: uuid}, {scope: scope, name: name}, reject);
             }
+            else {
+                self.collection.create({scope: scope, name: name}, reject);
+            }
 
             resolve(dictionary);
         });

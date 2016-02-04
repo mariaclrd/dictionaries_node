@@ -17,18 +17,19 @@ describe('Actions', function() {
             return self.dictionary;
         };
 
-        this.findOneStub = function() {
-            return self.dictionary
+        this.findOne = function() {
+            return self.dictionary;
         };
 
         this.fakeCollection = {
             find: self.findStub,
-            findOne: self.findOneStub,
-            update: sinon.spy()
+            findOne: self.findOne,
+            update: sinon.spy(),
+            create: sinon.spy()
         };
 
         this.findSpy = sinon.spy(this.fakeCollection, 'find');
-        this.findOneSpy = sinon.spy(this.fakeCollection, 'findOne')
+        this.findOneSpy = sinon.spy(this.fakeCollection, 'findOne');
 
         this.actions = new Actions(this.fakeCollection);
 
@@ -45,11 +46,32 @@ describe('Actions', function() {
             promise = this.actions.createOrUpdate();
             promise.then(function(dictionary){
                 var myCheck = function(object) {
-                    assert(that.findOneSpy.called)
+                    assert(that.findOneSpy.called);
                 };
                 AsyncCheck.check(myCheck, dictionary, done)
             }, function(argument){
-                done("failed test")
+                done("failed test");
+            });
+        });
+
+
+        describe('dictionary does not exists', function(){
+            it( 'creates a new element', function(done){
+                this.fakeCollection.findOne = function(){
+                    return null;
+                };
+                var that = this;
+
+                promise = this.actions.createOrUpdate('new_scope', that.uuid, 'new_name');
+
+                promise.then(function(dictionary){
+                    var myCheck = function(object) {
+                        expect(that.fakeCollection.create).to.be.calledOnce;
+                    };
+                    AsyncCheck.check(myCheck, dictionary, done)
+                }, function(argument){
+                    done("failed test");
+                });
             });
         });
 
@@ -59,11 +81,11 @@ describe('Actions', function() {
                 promise = this.actions.createOrUpdate('new_scope', that.uuid, 'new_name');
                 promise.then(function(dictionary){
                     var myCheck = function(object) {
-                        assert(that.fakeCollection.update.called)
+                        assert(that.fakeCollection.update.called);
                     };
                     AsyncCheck.check(myCheck, dictionary, done)
                 }, function(argument){
-                    done("failed test")
+                    done("failed test");
                 });
             });
         });
@@ -82,7 +104,7 @@ describe('Actions', function() {
                     expect(that.findSpy).to.be.called;
                     done();
                 } catch(error) {
-                    done(error)
+                    done(error);
                 }
             });
         });
