@@ -10,6 +10,10 @@ class Actions {
         var self = this;
         var promise = new Promise(function(resolve, reject){
             var dictionary = self.collection.findOne({scope: scope, uuid: uuid}, reject);
+            if(dictionary) {
+                self.collection.update({uuid: uuid}, {scope: scope, name: name}, reject);
+            }
+
             resolve(dictionary);
         });
         return promise;

@@ -17,12 +17,18 @@ describe('Actions', function() {
             return self.dictionary;
         };
 
+        this.findOneStub = function() {
+            return self.dictionary
+        };
+
         this.fakeCollection = {
             find: self.findStub,
-            findOne: sinon.spy()
+            findOne: self.findOneStub,
+            update: sinon.spy()
         };
 
         this.findSpy = sinon.spy(this.fakeCollection, 'find');
+        this.findOneSpy = sinon.spy(this.fakeCollection, 'findOne')
 
         this.actions = new Actions(this.fakeCollection);
 
@@ -34,13 +40,26 @@ describe('Actions', function() {
             expect(this.actions.createOrUpdate()).to.be.an.instanceof(Promise);
         });
 
-        describe('dictionary does not exist yet', function(){
-            it ('should create a dictionary if it does not exist', function(done){
-                var self = this;
-                promise = this.actions.createOrUpdate();
+        it ('uses the collection to check if the dictionary exists', function(done){
+            var that = this;
+            promise = this.actions.createOrUpdate();
+            promise.then(function(dictionary){
+                var myCheck = function(object) {
+                    assert(that.findOneSpy.called)
+                };
+                AsyncCheck.check(myCheck, dictionary, done)
+            }, function(argument){
+                done("failed test")
+            });
+        });
+
+        describe('dictionary already exists', function(){
+            it( 'updates the element if it exists', function(done){
+                var that = this;
+                promise = this.actions.createOrUpdate('new_scope', that.uuid, 'new_name');
                 promise.then(function(dictionary){
                     var myCheck = function(object) {
-                        assert(self.fakeCollection.findOne.called)
+                        assert(that.fakeCollection.update.called)
                     };
                     AsyncCheck.check(myCheck, dictionary, done)
                 }, function(argument){
@@ -57,7 +76,6 @@ describe('Actions', function() {
 
         it('should return a dictionary', function(done){
             var that = this;
-
             promise = this.actions.show();
             promise.then(function(){
                 try {
