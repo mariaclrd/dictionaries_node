@@ -67,6 +67,8 @@ describe('Actions', function() {
                 promise.then(function(dictionary){
                     var myCheck = function(object) {
                         expect(that.fakeCollection.create).to.be.calledOnce;
+                        expect(that.fakeCollection.create.args[0][0].scope).to.be.equals('new_scope');
+                        expect(that.fakeCollection.create.args[0][0].name).to.be.equals('new_name');
                     };
                     AsyncCheck.check(myCheck, dictionary, done)
                 }, function(argument){
@@ -81,7 +83,9 @@ describe('Actions', function() {
                 promise = this.actions.createOrUpdate('new_scope', that.uuid, 'new_name');
                 promise.then(function(dictionary){
                     var myCheck = function(object) {
-                        assert(that.fakeCollection.update.called);
+                        expect(that.fakeCollection.update).to.be.calledOnce;
+                        expect(that.fakeCollection.update.args[0][1].scope).to.be.equals('new_scope');
+                        expect(that.fakeCollection.update.args[0][1].name).to.be.equals('new_name');
                     };
                     AsyncCheck.check(myCheck, dictionary, done)
                 }, function(argument){
