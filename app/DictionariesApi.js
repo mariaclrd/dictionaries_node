@@ -7,7 +7,7 @@ class DictionariesApi {
     }
 
     update(req,resp) {
-        var promise = this.actions.createOrUpdate(req.params.scope, req.params.uuid, req.params.name);
+        var promise = this.actions.createOrUpdate(req.params.scope, req.params.uuid, req.params.name, req.params.content);
         promise.then(function(){
             resp.send(200);
         }, function() {
