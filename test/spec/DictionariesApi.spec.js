@@ -113,4 +113,45 @@ describe('DictionariesApi', function() {
             expect(this.fakeActions.show).to.be.calledWith('users','uuid', 'dictionary name');
         });
     });
+
+
+    describe('list', function() {
+        it('should return 404 when dictionary not found', function(done) {
+            this.fakeActions.show.rejects('foo');
+
+            this.reqRespMock.res.send = function(values) {
+
+                var myCheck = function(arg) {
+                    expect(arg).to.be.equal(404);
+                };
+
+                AsyncCheck.check(myCheck, values, done);
+            };
+
+            this.dictionariesApi.read(this.reqRespMock.req, this.reqRespMock.res);
+        });
+
+        it('should return 200 when dictionary found', function (done) {
+            this.fakeActions.show.resolves('foo');
+
+            this.reqRespMock.res.send = function(values) {
+
+                var myCheck = function(arg) {
+                    expect(arg).to.be.equal(201);
+                };
+
+                AsyncCheck.check(myCheck, values, done);
+            };
+
+            this.dictionariesApi.read(this.reqRespMock.req, this.reqRespMock.res);
+        });
+
+        it('should delegate to the action to get the specific dictionary', function(){
+            this.fakeActions.show.resolves('foo');
+
+            this.dictionariesApi.read(this.reqRespMock.req, this.reqRespMock.res);
+
+            expect(this.fakeActions.show).to.be.calledWith('users','uuid', 'dictionary name');
+        });
+    });
 });
