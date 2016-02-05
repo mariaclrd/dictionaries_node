@@ -97,20 +97,25 @@ describe('Actions', function() {
 
     describe('show', function() {
         it('should return a promise', function(){
-           expect(this.actions.show()).to.be.an.instanceof(Promise);
+           expect(this.actions.show('scope', 'uuid', 'name')).to.be.an.instanceof(Promise);
         });
 
         it('should return a dictionary', function(done){
             var that = this;
-            promise = this.actions.show();
+            promise = this.actions.show('my_wonderful_scope', 'user_uuid', 'Name');
             promise.then(function(){
                 try {
                     expect(that.findSpy).to.be.called;
+                    expect(that.findSpy.args[0][0].scope).to.be.equals('my_wonderful_scope');
+                    expect(that.findSpy.args[0][0].uuid).to.be.equals('user_uuid');
+                    expect(that.findSpy.args[0][0].name).to.be.equals('Name');
                     done();
                 } catch(error) {
                     done(error);
                 }
             });
         });
+
+
     });
 });
