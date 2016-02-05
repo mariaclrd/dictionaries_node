@@ -8,7 +8,13 @@ var DictionarySchema = new Schema({
         required: true,
         index: true
     },
-    uuid: {
+    user_uuid: {
+        type: String,
+        unique: false,
+        required: true,
+        index: true
+    },
+    account_uuid: {
         type: String,
         unique: false,
         required: true,
