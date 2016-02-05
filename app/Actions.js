@@ -25,10 +25,8 @@ class Actions {
     show(scope, uuid, name){
         var self = this;
 
-        var promise = new Promise(function(resolve, reject){
-            var dictionary = self.collection.find({scope: scope, uuid: uuid, name: name});
-            resolve(dictionary);
-        });
+        var dictionary = self.collection.findOne({scope: scope, uuid: uuid, name: name});
+        var promise = dictionary.exec();
         return promise;
     }
 }
