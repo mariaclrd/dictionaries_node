@@ -6,15 +6,15 @@ class Actions {
         this.collection = dictionaries_collection;
     }
 
-    createOrUpdate(scope, uuid, name){
+    createOrUpdate(scope, uuid, name, content){
         var self = this;
         var promise = new Promise(function(resolve, reject){
             var dictionary = self.collection.findOne({scope: scope, uuid: uuid}, reject);
             if(dictionary) {
-                self.collection.update({uuid: uuid}, {scope: scope, name: name}, reject);
+                self.collection.update({uuid: uuid}, { name: name, content: content }, reject);
             }
             else {
-                self.collection.create({scope: scope, name: name}, reject);
+                self.collection.create({scope: scope, name: name, content: content}, reject);
             }
 
             resolve(dictionary);

@@ -62,13 +62,14 @@ describe('Actions', function() {
                 };
                 var that = this;
 
-                promise = this.actions.createOrUpdate('new_scope', that.uuid, 'new_name');
+                promise = this.actions.createOrUpdate('new_scope', that.uuid, 'new_name', 'content');
 
                 promise.then(function(dictionary){
                     var myCheck = function(object) {
                         expect(that.fakeCollection.create).to.be.calledOnce;
                         expect(that.fakeCollection.create.args[0][0].scope).to.be.equals('new_scope');
                         expect(that.fakeCollection.create.args[0][0].name).to.be.equals('new_name');
+                        expect(that.fakeCollection.create.args[0][0].content).to.be.equals('content');
                     };
                     AsyncCheck.check(myCheck, dictionary, done)
                 }, function(argument){
@@ -80,12 +81,12 @@ describe('Actions', function() {
         describe('dictionary already exists', function(){
             it( 'updates the element if it exists', function(done){
                 var that = this;
-                promise = this.actions.createOrUpdate('new_scope', that.uuid, 'new_name');
+                promise = this.actions.createOrUpdate('new_scope', that.uuid, 'new_name', 'content');
                 promise.then(function(dictionary){
                     var myCheck = function(object) {
                         expect(that.fakeCollection.update).to.be.calledOnce;
-                        expect(that.fakeCollection.update.args[0][1].scope).to.be.equals('new_scope');
                         expect(that.fakeCollection.update.args[0][1].name).to.be.equals('new_name');
+                        expect(that.fakeCollection.update.args[0][1].content).to.be.equals('content');
                     };
                     AsyncCheck.check(myCheck, dictionary, done)
                 }, function(argument){
