@@ -1,6 +1,6 @@
 {
   "port": 9001,
-  "environment": "qa",
+  "environment": "localhost",
   "database": {
     "url": "test"
   }

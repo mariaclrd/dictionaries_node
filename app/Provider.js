@@ -18,14 +18,14 @@ Provider.prototype.memoize('expressApp', function () {
     var config = configFile('http')
 	return expressApp({
 		dictionariesApi: this.dictionaries().api(),
-		cirrusMiddleware: new CirrusMiddleware(this.config, {}),
+		cirrusMiddleware: new CirrusMiddleware(configFile('http')(), {}),
 		logger: this.logger
 	})
 });
 
 Provider.prototype.memoize('service', function () {
 	var opts = {
-		config: this.config(),
+		config: configFile('http')(),
 		expressApp: this.expressApp(),
 		logger: this.logger
 	}
