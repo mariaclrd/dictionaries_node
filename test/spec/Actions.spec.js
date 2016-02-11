@@ -3,31 +3,40 @@ var chai = require('chai');
 var expect = chai.expect;
 var assert = chai.assert;
 var AsyncCheck = require('../helpers/AsyncCheck');
+var Dictionary = require('../../app/models/Dictionaries');
+
 var sinon = require('sinon');
 
 describe('Actions', function() {
     beforeEach(function(){
         var self = this;
-        this.uuid = "dictionary_uuid";
+
+        this.user_uuid = "user_uuid";
         this.dictionary = {
-            uuid: this.uuid
+            user_uuid: this.user_uuid
         };
 
         this.findOne = function() {
             return self.dictionary;
         };
 
+        this.dictionaryFindOneStub = function() {
+           return {
+               exec : function(){
+                   return new Promise(function(resolve, reject){
+                       resolve(self.dictionary);
+                   });
+               }
+           }
+        };
+
         this.fakeCollection = {
-            findOne: self.findOne,
+            findOne: this.dictionaryFindOneStub,
             update: sinon.spy(),
             create: sinon.spy()
         };
 
-        this.findOneSpy = sinon.spy(this.fakeCollection, 'findOne');
-
         this.actions = new Actions(this.fakeCollection);
-
-
     });
 
     describe('createOrUpdate', function(){
@@ -35,58 +44,37 @@ describe('Actions', function() {
             expect(this.actions.createOrUpdate()).to.be.an.instanceof(Promise);
         });
 
-        it ('uses the collection to check if the dictionary exists', function(done){
+        it('creates a dictionary if it doesn\'t exist', function(done) {
             var that = this;
-            promise = this.actions.createOrUpdate();
-            promise.then(function(dictionary){
-                var myCheck = function(object) {
-                    assert(that.findOneSpy.called);
-                };
-                AsyncCheck.check(myCheck, dictionary, done)
-            }, function(argument){
-                done("failed test");
-            });
+
+            this.fakeCollection.findOne = function() {
+                return {
+                    exec : function(){
+                        return new Promise(function(resolve, reject){
+                            resolve(undefined);
+                        });
+                    }
+                }
+            };
+            this.actions.createOrUpdate('new_scope', that.uuid, 'new_name', 'content').
+            then(function () {
+                expect(that.fakeCollection.create).to.be.calledOnce;
+                expect(that.fakeCollection.create.args[0][0].scope).to.be.equals('new_scope');
+                expect(that.fakeCollection.create.args[0][0].name).to.be.equals('new_name');
+                expect(that.fakeCollection.create.args[0][0].content).to.be.equals('content');
+            }).
+                then(function() { done(); }).catch(function(err) { done(err); })
         });
 
-
-        describe('dictionary does not exists', function(){
-            it( 'creates a new element', function(done){
-                this.fakeCollection.findOne = function(){
-                    return null;
-                };
-                var that = this;
-
-                promise = this.actions.createOrUpdate('new_scope', that.uuid, 'new_name', 'content');
-
-                promise.then(function(dictionary){
-                    var myCheck = function(object) {
-                        expect(that.fakeCollection.create).to.be.calledOnce;
-                        expect(that.fakeCollection.create.args[0][0].scope).to.be.equals('new_scope');
-                        expect(that.fakeCollection.create.args[0][0].name).to.be.equals('new_name');
-                        expect(that.fakeCollection.create.args[0][0].content).to.be.equals('content');
-                    };
-                    AsyncCheck.check(myCheck, dictionary, done)
-                }, function(argument){
-                    done("failed test");
-                });
-            });
-        });
-
-        describe('dictionary already exists', function(){
-            it( 'updates the element if it exists', function(done){
-                var that = this;
-                promise = this.actions.createOrUpdate('new_scope', that.uuid, 'new_name', 'content');
-                promise.then(function(dictionary){
-                    var myCheck = function(object) {
-                        expect(that.fakeCollection.update).to.be.calledOnce;
-                        expect(that.fakeCollection.update.args[0][1].name).to.be.equals('new_name');
-                        expect(that.fakeCollection.update.args[0][1].content).to.be.equals('content');
-                    };
-                    AsyncCheck.check(myCheck, dictionary, done)
-                }, function(argument){
-                    done("failed test");
-                });
-            });
+        it('updates the dictionary if it exists', function(done){
+           var that = this;
+            this.actions.createOrUpdate('new_scope', that.uuid, 'new_name', 'content').
+                then(function(){
+                expect(that.fakeCollection.update).to.be.calledOnce;
+                expect(that.fakeCollection.update.args[0][1].name).to.be.equals('new_name');
+                expect(that.fakeCollection.update.args[0][1].content).to.be.equals('content');
+            }).
+            then(function() { done(); }).catch(function(err) { done(err); })
         });
     });
 
@@ -100,13 +88,13 @@ describe('Actions', function() {
              };
             return obj
            };
-           this.findOneSpy = sinon.spy(this.fakeCollection, 'findOne');
+           this.dictionaryFindOneStub = sinon.spy(this.fakeCollection, 'findOne');
            
            promise = this.actions.show('scope', 'uuid', 'name')
 
             promise.then(function(){
                 try {
-                    expect(that.findOneSpy).to.be.called;
+                    expect(that.dictionaryFindOneStub).to.be.called;
                     done();
                 } catch(error) {
                     done(error);
