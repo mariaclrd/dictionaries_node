@@ -16,6 +16,7 @@ Provider.prototype = new ProviderBase()
 
 Provider.prototype.memoize('expressApp', function () {
     var config = configFile('http')
+	console.log('ABC ' + expressApp);
 	return expressApp({
 		dictionariesApi: this.dictionaries().api(),
 		cirrusMiddleware: new CirrusMiddleware(configFile('http')(), {}),

@@ -33,14 +33,42 @@ describe('DictionariesApi', function() {
 
     describe('put', function() {
 
-        it('should return 200', function(done) {
+        beforeEach(function(){
+            this.reqRespMock.res.sendStatus = function(values){};
+            this.reqRespMock.res.json = function(values){};
+        });
 
+        it('should return 200', function(done) {
             this.fakeActions.createOrUpdate.resolves('foo');
 
-            this.reqRespMock.res.send = function(values) {
+            this.reqRespMock.res.sendStatus = function(values) {
 
                 var myCheck = function(arg) {
                     expect(arg).to.be.equal(200);
+                };
+
+                AsyncCheck.check(myCheck, values, done);
+            };
+
+
+            this.dictionariesApi.update(this.reqRespMock.req, this.reqRespMock.res);
+        });
+
+
+        it('should return the dictionary on the body', function(done) {
+            var that = this;
+            this.dictionary = {
+                name: 'name',
+                uuid: 'uuid',
+                scope: 'user',
+                content: 'content'
+            };
+
+            this.fakeActions.createOrUpdate.resolves(this.dictionary);
+            this.reqRespMock.res.json = function(values) {
+
+                var myCheck = function(arg) {
+                    expect(arg).to.be.equal(that.dictionary);
                 };
 
                 AsyncCheck.check(myCheck, values, done);

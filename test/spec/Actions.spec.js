@@ -16,10 +16,6 @@ describe('Actions', function() {
             user_uuid: this.user_uuid
         };
 
-        this.findOne = function() {
-            return self.dictionary;
-        };
-
         this.dictionaryFindOneStub = function() {
            return {
                exec : function(){

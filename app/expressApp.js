@@ -14,7 +14,7 @@ function expressApp(opts) {
 
 	if(opts.cirrusMiddleware) { opts.cirrusMiddleware.install(app); }
 
-	app.put('/dictionaries/:id', dictionariesApi.update);
+	app.put('/:scope/:uuid/dictionaries/:name', dictionariesApi.update);
 	app.get('/ping', function (req, res) {
 	  res.send('pong');
 	});
