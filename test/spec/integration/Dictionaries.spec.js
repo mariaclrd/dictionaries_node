@@ -7,12 +7,21 @@ var provider = require('../../../app/Provider');
 describe('integration', function () {
 
     before(function() {
+        var that = this;
         this.provider = new provider();
-        this.app = this.provider.expressApp();
+        this.app = that.provider.expressApp();
+    });
+
+    describe ('GET /ping', function(){
+        it('should return 200', function(done) {
+            request(this.app)
+                .get('/ping')
+                .expect(200, done);
+        });
     });
 
     describe('PUT /{scope}/{uuid}/dictionaries/{name}.json', function() {
-        it.only('should return 200', function(done) {
+        it('should return 200', function(done) {
             request(this.app)
                 .put('/users/some-uuid/dictionaries/some-name.json')
                 .expect(200)
