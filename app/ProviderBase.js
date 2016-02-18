@@ -8,7 +8,7 @@ function ProviderBase() {
 				that.memo[name] = factory.bind(that)()
 			}
 
-			return that.memo[name]
+			return that.memo[name];
 		};
 	}
 }

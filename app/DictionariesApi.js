@@ -4,6 +4,7 @@ class DictionariesApi {
 
     constructor(actions) {
         this.actions = actions;
+
     }
 
     update(req,resp) {

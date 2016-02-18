@@ -26,6 +26,7 @@ describe('integration', function () {
                 .put('/users/some-uuid/dictionaries/some-name.json')
                 .expect(200)
                 .end(done);
+
         });
     });
 });
