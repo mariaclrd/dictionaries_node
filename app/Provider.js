@@ -12,11 +12,10 @@ var logger = loggerFactory.get('app');
 
 function Provider() {}
 
-Provider.prototype = new ProviderBase()
+Provider.prototype = new ProviderBase();
 
 Provider.prototype.memoize('expressApp', function () {
-    var config = configFile('http')
-	console.log('ABC ' + expressApp);
+    var config = configFile('http');
 	return expressApp({
 		dictionariesApi: this.dictionaries().api(),
 		cirrusMiddleware: new CirrusMiddleware(configFile('http')(), {}),
@@ -29,7 +28,7 @@ Provider.prototype.memoize('service', function () {
 		config: configFile('http')(),
 		expressApp: this.expressApp(),
 		logger: this.logger
-	}
+	};
 
 	return new Service(opts);
 });

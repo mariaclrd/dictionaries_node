@@ -1,20 +1,21 @@
 function ProviderBase() {
-	this.memo = {}
+    var that = this;
+	this.memo = {};
 
 	this.memoize = function (name, factory) {
-		this[name] = function () {
-			if (this.memo[name] === undefined) {
-				this.memo[name] = factory.bind(this)()
+		that[name] = function () {
+			if (that.memo[name] === undefined) {
+				that.memo[name] = factory.bind(that)()
 			}
 
-			return this.memo[name]
-		}
+			return that.memo[name]
+		};
 	}
 }
 
 ProviderBase.prototype.inspect = function () {
-	var keys = Object.keys(Object.getPrototypeOf(this))
+	var keys = Object.keys(Object.getPrototypeOf(this));
 	return '< provider: ' + keys.join(", ") + '>'
-}
+};
 
-module.exports = ProviderBase
+module.exports = ProviderBase;

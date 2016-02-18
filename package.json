@@ -33,6 +33,8 @@
   "dependencies": {
     "@workshare/nodejs-cirrus-auth": "0.0.5",
     "@workshare/ws-logger": "0.0.2",
+    "body-parser": "^1.15.0",
+    "cookie-parser": "^1.4.1",
     "express": "~4.13.3",
     "log4js": "^0.6.27",
     "log4js-config": "^0.1.1",
