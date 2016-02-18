@@ -7,6 +7,6 @@ DictionariesProvider.prototype = new ProviderBase()
 
 DictionariesProvider.prototype.memoize('api', function () {
 	return new DictionariesApi()
-})
+});
 
-module.exports = DictionariesProvider
+module.exports = DictionariesProvider;
