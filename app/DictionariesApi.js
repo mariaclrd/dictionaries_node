@@ -13,7 +13,7 @@ class DictionariesApi {
             resp.sendStatus(200);
             resp.json(dictionary);
         }, function() {
-            resp.send(500);
+            resp.sendStatus(500);
         });
     }
 

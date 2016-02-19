@@ -80,7 +80,7 @@ describe('DictionariesApi', function() {
         it('should return error when promise not resolved', function(done){
             this.fakeActions.createOrUpdate.rejects('foo');
 
-            this.reqRespMock.res.send = function(values) {
+            this.reqRespMock.res.sendStatus = function(values) {
 
                 var myCheck = function(arg) {
                     expect(arg).to.be.equal(500);
