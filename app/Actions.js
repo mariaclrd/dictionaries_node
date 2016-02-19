@@ -2,8 +2,8 @@
 
 class Actions {
 
-    constructor(dictionaries_collection) {
-        this.collection = dictionaries_collection;
+    constructor(dictionariesCollection) {
+        this.collection = dictionariesCollection;
     }
 
     createOrUpdate(scope, uuid, name, content){

@@ -28,7 +28,7 @@ describe('integration', function () {
         });
     });
 
-    describe('PUT /{scope}/{uuid}/dictionaries/{name}.json', function() {
+    describe.only('PUT /{scope}/{uuid}/dictionaries/{name}.json', function() {
         it('should return 200', function(done) {
             request(this.app)
                 .put('/users/some-uuid/dictionaries/some-name.json')
