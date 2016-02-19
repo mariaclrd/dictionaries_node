@@ -26,13 +26,27 @@ describe('Actions', function() {
            }
         };
 
+        this.dictionaryCreateStub = function() {
+            return new Promise(function(resolve, reject){
+                        resolve(self.dictionary);
+                    });
+        };
+
+        this.dictionaryUpdateStub = function() {
+            return new Promise(function(resolve, reject){
+                resolve(self.dictionary);
+            });
+        };
+
         this.fakeCollection = {
             findOne: this.dictionaryFindOneStub,
-            update: sinon.spy(),
-            create: sinon.spy()
+            update: this.dictionaryUpdateStub,
+            create: this.dictionaryCreateStub
         };
 
         this.actions = new Actions(this.fakeCollection);
+        this.createSpy = sinon.spy(this.fakeCollection, 'create');
+        this.updateSpy = sinon.spy(this.fakeCollection, 'update');
     });
 
     describe('createOrUpdate', function(){
@@ -54,10 +68,10 @@ describe('Actions', function() {
             };
             this.actions.createOrUpdate('new_scope', that.uuid, 'new_name', 'content').
             then(function () {
-                expect(that.fakeCollection.create).to.be.calledOnce;
-                expect(that.fakeCollection.create.args[0][0].scope).to.be.equals('new_scope');
-                expect(that.fakeCollection.create.args[0][0].name).to.be.equals('new_name');
-                expect(that.fakeCollection.create.args[0][0].content).to.be.equals('content');
+                expect(that.createSpy).to.be.calledOnce;
+                expect(that.createSpy.args[0][0].scope).to.be.equals('new_scope');
+                expect(that.createSpy.args[0][0].name).to.be.equals('new_name');
+                expect(that.createSpy.args[0][0].content).to.be.equals('content');
             }).
                 then(function() { done(); }).catch(function(err) { done(err); })
         });
@@ -66,9 +80,9 @@ describe('Actions', function() {
            var that = this;
             this.actions.createOrUpdate('new_scope', that.uuid, 'new_name', 'content').
                 then(function(){
-                expect(that.fakeCollection.update).to.be.calledOnce;
-                expect(that.fakeCollection.update.args[0][1].name).to.be.equals('new_name');
-                expect(that.fakeCollection.update.args[0][1].content).to.be.equals('content');
+                expect(that.updateSpy).to.be.calledOnce;
+                expect(that.updateSpy.args[0][1].name).to.be.equals('new_name');
+                expect(that.updateSpy.args[0][1].content).to.be.equals('content');
             }).
             then(function() { done(); }).catch(function(err) { done(err); })
         });

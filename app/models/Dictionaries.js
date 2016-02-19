@@ -11,13 +11,13 @@ var DictionarySchema = new Schema({
     user_uuid: {
         type: String,
         unique: false,
-        required: true,
+        required: false,
         index: true
     },
     account_uuid: {
         type: String,
         unique: false,
-        required: true,
+        required: false,
         index: true
     },
     name: {
@@ -28,7 +28,7 @@ var DictionarySchema = new Schema({
     content: {
         type: String,
         unique: false,
-        required: true
+        required: false
     }
 });
 

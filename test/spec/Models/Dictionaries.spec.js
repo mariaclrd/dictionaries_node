@@ -1,14 +1,17 @@
 var chai = require('chai');
 var mongoose = require('mongoose');
-//var finallyDone = require('../helpers/finallyDone');
 var assert = chai.assert;
 var Dictionary = require('../../../app/models/Dictionaries');
 
 describe('Dictionaries model test', function() {
 
     before( function() {
-            mongoose.connect("mongodb://localhost/dictionaries");
-            mongoose.Promise = Promise;
+        mongoose.connect("mongodb://localhost/dictionaries");
+        mongoose.Promise = Promise;
+    });
+
+    after( function(){
+        mongoose.disconnect();
     });
 
     it('should create a dictionary object', function () {
@@ -20,6 +23,7 @@ describe('Dictionaries model test', function() {
         });
         assert.isOk(dictionary);
     });
+    mongoose.Promise = Promise;
 
     it('should create a populated dictionary object', function() {
         var dictionary = new Dictionary({
@@ -40,7 +44,7 @@ describe('Dictionaries model test', function() {
             user_uuid: 'fake-uuid',
             account_uuid: 'account_uuid',
             name: 'fake-name',
-            content: 'diccionario de chino'
+            content: undefined
         };
 
         Dictionary.create(dictionary).

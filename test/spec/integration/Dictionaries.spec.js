@@ -5,6 +5,7 @@ var expect = chai.expect;
 var Provider = require('../../../app/Provider');
 var CirrusAuthMiddleware = require('@workshare/nodejs-cirrus-auth');
 var sinon = require('sinon');
+var mongoose = require('mongoose');
 
 describe('integration', function () {
 
@@ -20,6 +21,10 @@ describe('integration', function () {
         this.authStub.restore();
     });
 
+    after(function(){
+        mongoose.disconnect();
+    });
+
     describe ('GET /ping', function(){
         it('should return 200', function(done) {
             request(this.app)
@@ -28,7 +33,7 @@ describe('integration', function () {
         });
     });
 
-    describe.only('PUT /{scope}/{uuid}/dictionaries/{name}.json', function() {
+    describe('PUT /{scope}/{uuid}/dictionaries/{name}.json', function() {
         it('should return 200', function(done) {
             request(this.app)
                 .put('/users/some-uuid/dictionaries/some-name.json')
