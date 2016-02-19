@@ -9,8 +9,7 @@ function DictionariesProvider() { }
 DictionariesProvider.prototype = new ProviderBase()
 
 DictionariesProvider.prototype.memoize('api', function () {
-	var dicitonariesCollection = new Dictionaries();
-	var actions = new Actions(dicitonariesCollection);
+	var actions = new Actions(Dictionaries);
 	return new DictionariesApi(actions)
 });
 
