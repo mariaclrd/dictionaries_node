@@ -13,7 +13,7 @@ function expressApp(opts) {
     app.use(bodyParser.json());
 
 
-	//if(opts.cirrusMiddleware) { opts.cirrusMiddleware.install(app); }
+	if(opts.cirrusMiddleware) { opts.cirrusMiddleware.install(app); }
 
 	app.put('/:scope/:uuid/dictionaries/:name', dictionariesApi.update.bind(dictionariesApi));
 	app.get('/ping', function (req, res) {

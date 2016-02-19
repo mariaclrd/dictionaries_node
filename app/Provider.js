@@ -3,7 +3,6 @@ var expressApp = require('./expressApp');
 
 var DictionariesApi = require('./providers/Dictionaries');
 var ProviderBase = require('./ProviderBase');
-var configFile = require('./configFile.js');
 var CirrusMiddleware = require('@workshare/nodejs-cirrus-auth');
 var wsLogger = require('@workshare/ws-logger');
 var Service = require('./Service');

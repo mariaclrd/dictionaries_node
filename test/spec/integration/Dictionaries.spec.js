@@ -2,14 +2,22 @@ var request = require('supertest');
 var application = require('../../../app/expressApp');
 var chai = require('chai');
 var expect = chai.expect;
-var provider = require('../../../app/Provider');
+var Provider = require('../../../app/Provider');
+var CirrusAuthMiddleware = require('@workshare/nodejs-cirrus-auth');
+var sinon = require('sinon');
 
 describe('integration', function () {
 
-    before(function() {
-        var that = this;
-        this.provider = new provider();
-        this.app = that.provider.expressApp();
+    beforeEach(function() {
+        this.provider = new Provider();
+        this.authStub = sinon.stub(CirrusAuthMiddleware.prototype, 'filter', function(_r, _rs, next) {
+            next();
+        });
+        this.app = this.provider.expressApp();
+    });
+
+    afterEach(function(){
+        this.authStub.restore();
     });
 
     describe ('GET /ping', function(){

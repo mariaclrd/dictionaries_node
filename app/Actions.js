@@ -8,7 +8,7 @@ class Actions {
 
     createOrUpdate(scope, uuid, name, content){
         var self = this;
-        var promise = new Promise(function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
             var dictionaryPromise = self.collection.findOne({scope: scope, uuid: uuid}).exec();
 
             dictionaryPromise.then( function(dictionary){
@@ -22,15 +22,13 @@ class Actions {
             );
             resolve();
         });
-        return promise;
     }
 
     show(scope, uuid, name){
         var self = this;
 
         var dictionary = self.collection.findOne({scope: scope, uuid: uuid, name: name});
-        var promise = dictionary.exec();
-        return promise;
+        return dictionary.exec();
     }
 }
 
